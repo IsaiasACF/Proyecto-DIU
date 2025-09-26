@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Grid, List, Calendar, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -7,6 +7,7 @@ import EventFilters from "./EventFilters";
 
 const EventsList = () => {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [activeFilters, setActiveFilters] = useState<string[]>([]);
 
   // Datos de ejemplo para los eventos
   const sampleEvents = [
@@ -84,13 +85,39 @@ const EventsList = () => {
     },
   ];
 
-  const upcomingEvents = sampleEvents.slice(0, 3);
-  const allEvents = sampleEvents;
+  const filterEvents = (events: typeof sampleEvents) => {
+    if (activeFilters.length === 0) return events;
+
+    return events.filter(event => {
+      return activeFilters.every(filter => {
+        const [type, value] = filter.split(':');
+        
+        switch (type) {
+          case 'categoria':
+            return event.category.toLowerCase() === value;
+          case 'publico':
+            return event.audienceType.toLowerCase() === value;
+          case 'tiempo':
+            // Para simplicidad, no implementamos filtros de tiempo por ahora
+            return true;
+          default:
+            return true;
+        }
+      });
+    });
+  };
+
+  const filteredAllEvents = useMemo(() => filterEvents(sampleEvents), [activeFilters]);
+  const filteredUpcomingEvents = useMemo(() => filterEvents(sampleEvents.slice(0, 3)), [activeFilters]);
+
+  const handleFiltersChange = (filters: string[]) => {
+    setActiveFilters(filters);
+  };
 
   return (
     <div className="space-y-6">
       {/* Filters */}
-      <EventFilters />
+      <EventFilters onFiltersChange={handleFiltersChange} />
 
       <Tabs defaultValue="upcoming" className="w-full">
         <div className="flex items-center justify-between mb-6">
@@ -140,7 +167,7 @@ const EventsList = () => {
               ? "grid-cols-1 md:grid-cols-2 xl:grid-cols-3" 
               : "grid-cols-1"
           }`}>
-            {upcomingEvents.map((event, index) => (
+            {filteredUpcomingEvents.map((event, index) => (
               <EventCard key={index} {...event} />
             ))}
           </div>
@@ -150,7 +177,7 @@ const EventsList = () => {
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-2xl font-semibold text-foreground">Todos los Eventos</h2>
-              <p className="text-muted-foreground">{allEvents.length} eventos disponibles</p>
+              <p className="text-muted-foreground">{filteredAllEvents.length} eventos disponibles</p>
             </div>
           </div>
 
@@ -159,7 +186,7 @@ const EventsList = () => {
               ? "grid-cols-1 md:grid-cols-2 xl:grid-cols-3" 
               : "grid-cols-1"
           }`}>
-            {allEvents.map((event, index) => (
+            {filteredAllEvents.map((event, index) => (
               <EventCard key={index} {...event} />
             ))}
           </div>

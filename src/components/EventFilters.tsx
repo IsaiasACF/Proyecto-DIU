@@ -6,7 +6,11 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
-const EventFilters = () => {
+interface EventFiltersProps {
+  onFiltersChange?: (filters: string[]) => void;
+}
+
+const EventFilters = ({ onFiltersChange }: EventFiltersProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
 
@@ -35,16 +39,21 @@ const EventFilters = () => {
   const addFilter = (type: string, value: string) => {
     const filter = `${type}:${value}`;
     if (!activeFilters.includes(filter)) {
-      setActiveFilters([...activeFilters, filter]);
+      const newFilters = [...activeFilters, filter];
+      setActiveFilters(newFilters);
+      onFiltersChange?.(newFilters);
     }
   };
 
   const removeFilter = (filter: string) => {
-    setActiveFilters(activeFilters.filter(f => f !== filter));
+    const newFilters = activeFilters.filter(f => f !== filter);
+    setActiveFilters(newFilters);
+    onFiltersChange?.(newFilters);
   };
 
   const clearAllFilters = () => {
     setActiveFilters([]);
+    onFiltersChange?.([]);
   };
 
   const getFilterLabel = (filter: string) => {
