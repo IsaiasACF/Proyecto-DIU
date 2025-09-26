@@ -38,11 +38,23 @@ const EventFilters = ({ onFiltersChange }: EventFiltersProps) => {
 
   const addFilter = (type: string, value: string) => {
     const filter = `${type}:${value}`;
-    if (!activeFilters.includes(filter)) {
-      const newFilters = [...activeFilters, filter];
-      setActiveFilters(newFilters);
-      onFiltersChange?.(newFilters);
+    let newFilters;
+
+    if (type === 'categoria') {
+      // Para categorías, reemplazar cualquier categoría existente
+      newFilters = activeFilters.filter(f => !f.startsWith('categoria:'));
+      newFilters.push(filter);
+    } else {
+      // Para otros tipos, mantener comportamiento actual
+      if (!activeFilters.includes(filter)) {
+        newFilters = [...activeFilters, filter];
+      } else {
+        return; // Ya existe el filtro
+      }
     }
+    
+    setActiveFilters(newFilters);
+    onFiltersChange?.(newFilters);
   };
 
   const removeFilter = (filter: string) => {
