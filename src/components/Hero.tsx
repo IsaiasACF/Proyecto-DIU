@@ -47,8 +47,8 @@ const Hero = () => {
             </Button>
             <Button 
               size="lg" 
-              variant="outline" 
-              className="border-white/30 text-white hover:bg-white/10 min-w-[200px]"
+              variant="hero" 
+              className="min-w-[200px]"
             >
               Explorar Eventos
             </Button>
