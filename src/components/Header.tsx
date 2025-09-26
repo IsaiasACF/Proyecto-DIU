@@ -1,8 +1,10 @@
 import { Search, Calendar, Filter, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
   return (
     <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md">
       <div className="container mx-auto px-6 py-4">
@@ -39,7 +41,11 @@ const Header = () => {
               <User className="h-4 w-4 mr-2" />
               Ingresar
             </Button>
-            <Button size="sm" className="bg-gradient-primary text-primary-foreground shadow-md hover:shadow-lg">
+            <Button 
+              size="sm" 
+              className="bg-gradient-primary text-primary-foreground shadow-md hover:shadow-lg"
+              onClick={() => navigate('/crear-evento')}
+            >
               Publicar Evento
             </Button>
           </div>

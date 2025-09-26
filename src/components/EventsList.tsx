@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Grid, List, Calendar, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -8,6 +8,13 @@ import EventFilters from "./EventFilters";
 const EventsList = () => {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  const [userEvents, setUserEvents] = useState<any[]>([]);
+
+  // Cargar eventos del usuario desde localStorage
+  useEffect(() => {
+    const savedEvents = JSON.parse(localStorage.getItem('userEvents') || '[]');
+    setUserEvents(savedEvents);
+  }, []);
 
   // Datos de ejemplo para los eventos
   const sampleEvents = [
@@ -85,7 +92,10 @@ const EventsList = () => {
     },
   ];
 
-  const filterEvents = (events: typeof sampleEvents) => {
+  // Combinar eventos predefinidos con eventos del usuario
+  const allEventsData = [...sampleEvents, ...userEvents];
+
+  const filterEvents = (events: typeof allEventsData) => {
     if (activeFilters.length === 0) return events;
 
     return events.filter(event => {
@@ -107,8 +117,8 @@ const EventsList = () => {
     });
   };
 
-  const filteredAllEvents = useMemo(() => filterEvents(sampleEvents), [activeFilters]);
-  const filteredUpcomingEvents = useMemo(() => filterEvents(sampleEvents.slice(0, 3)), [activeFilters]);
+  const filteredAllEvents = useMemo(() => filterEvents(allEventsData), [activeFilters, userEvents]);
+  const filteredUpcomingEvents = useMemo(() => filterEvents(allEventsData.slice(0, 3)), [activeFilters, userEvents]);
 
   const handleFiltersChange = (filters: string[]) => {
     setActiveFilters(filters);
