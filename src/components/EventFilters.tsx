@@ -161,19 +161,6 @@ const EventFilters = ({ onFiltersChange }: EventFiltersProps) => {
             </Card>
           </PopoverContent>
         </Popover>
-
-        {/* Quick Time Filters */}
-        {timeRanges.slice(0, 3).map((range) => (
-          <Button
-            key={range.value}
-            variant={activeFilters.includes(`tiempo:${range.value}`) ? "default" : "outline"}
-            size="sm"
-            onClick={() => addFilter('tiempo', range.value)}
-            className="text-xs"
-          >
-            {range.label}
-          </Button>
-        ))}
       </div>
 
       {/* Active Filters */}
