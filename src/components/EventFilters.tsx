@@ -23,6 +23,7 @@ const EventFilters = ({ onFiltersChange }: EventFiltersProps) => {
   ];
 
   const audiences = [
+    { value: "todo", label: "Todo público" },
     { value: "estudiantes", label: "Estudiantes" },
     { value: "funcionarios", label: "Funcionarios" },
     { value: "publico", label: "Público General" },
@@ -40,9 +41,9 @@ const EventFilters = ({ onFiltersChange }: EventFiltersProps) => {
     const filter = `${type}:${value}`;
     let newFilters;
 
-    if (type === 'categoria') {
-      // Para categorías, reemplazar cualquier categoría existente
-      newFilters = activeFilters.filter(f => !f.startsWith('categoria:'));
+    if (type === 'categoria' || type === 'tiempo') {
+      // Para categorías y tiempo, reemplazar cualquier filtro existente del mismo tipo
+      newFilters = activeFilters.filter(f => !f.startsWith(`${type}:`));
       newFilters.push(filter);
     } else {
       // Para otros tipos, mantener comportamiento actual

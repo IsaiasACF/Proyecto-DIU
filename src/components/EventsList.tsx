@@ -96,7 +96,7 @@ const EventsList = () => {
           case 'categoria':
             return event.category.toLowerCase() === value;
           case 'publico':
-            return event.audienceType.toLowerCase() === value;
+            return value === 'todo' || event.audienceType.toLowerCase() === value;
           case 'tiempo':
             // Para simplicidad, no implementamos filtros de tiempo por ahora
             return true;
