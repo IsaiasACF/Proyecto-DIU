@@ -120,8 +120,24 @@ const EventsList = () => {
           case 'publico':
             return value === 'todo' || event.audienceType.toLowerCase() === value;
           case 'tiempo':
-            // Para simplicidad, no implementamos filtros de tiempo por ahora
-            return true;
+            const eventDate = new Date(event.date.split(' ').reverse().join('-'));
+            const today = new Date();
+            const oneWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+            const oneMonth = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
+            
+            switch (value) {
+              case 'hoy':
+                return eventDate.toDateString() === today.toDateString();
+              case 'semana':
+                return eventDate >= today && eventDate <= oneWeek;
+              case 'mes':
+                return eventDate >= today && eventDate <= oneMonth;
+              case 'siguiente':
+                const nextMonth = new Date(today.getTime() + 60 * 24 * 60 * 60 * 1000);
+                return eventDate > oneMonth && eventDate <= nextMonth;
+              default:
+                return true;
+            }
           default:
             return true;
         }
@@ -190,7 +206,7 @@ const EventsList = () => {
               : "grid-cols-1"
           }`}>
             {filteredUpcomingEvents.map((event, index) => (
-              <EventCard key={event.id || index} {...event} />
+              <EventCard key={`upcoming-${event.id || index}`} {...event} />
             ))}
           </div>
         </TabsContent>
@@ -209,7 +225,7 @@ const EventsList = () => {
               : "grid-cols-1"
           }`}>
             {filteredAllEvents.map((event, index) => (
-              <EventCard key={event.id || index} {...event} />
+              <EventCard key={`all-${event.id || index}`} {...event} />
             ))}
           </div>
         </TabsContent>
