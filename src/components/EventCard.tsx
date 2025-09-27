@@ -23,6 +23,7 @@ interface EventCardProps {
   fullDescription?: string;
   isHighlighted?: boolean;
   onEventUpdate?: (updatedEvent: any) => void;
+  onEventDelete?: (eventId: string) => void;
 }
 
 const EventCard = ({
@@ -40,6 +41,7 @@ const EventCard = ({
   fullDescription,
   isHighlighted = false,
   onEventUpdate,
+  onEventDelete,
 }: EventCardProps) => {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const { toast } = useToast();
@@ -239,6 +241,7 @@ const EventCard = ({
           isOpen={isEditOpen}
           onOpenChange={setIsEditOpen}
           onEventUpdate={handleEventUpdate}
+          onEventDelete={onEventDelete || (() => {})}
         />
       </CardContent>
     </Card>

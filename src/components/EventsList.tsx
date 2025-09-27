@@ -117,6 +117,27 @@ const EventsList = () => {
     }
   };
 
+  // Función para eliminar eventos
+  const handleEventDelete = (eventId: string) => {
+    console.log('Eliminando evento:', eventId); // Debug log
+    // Eliminar de eventos de muestra si es uno de ellos
+    const sampleEventIndex = sampleEventsState.findIndex(e => e.id === eventId);
+    if (sampleEventIndex !== -1) {
+      const newSampleEvents = sampleEventsState.filter(e => e.id !== eventId);
+      setSampleEventsState(newSampleEvents);
+      console.log('Evento de muestra eliminado'); // Debug log
+    } else {
+      // Eliminar de eventos del usuario
+      const userEventIndex = userEvents.findIndex(e => e.id === eventId);
+      if (userEventIndex !== -1) {
+        const newUserEvents = userEvents.filter(e => e.id !== eventId);
+        setUserEvents(newUserEvents);
+        localStorage.setItem('userEvents', JSON.stringify(newUserEvents));
+        console.log('Evento de usuario eliminado'); // Debug log
+      }
+    }
+  };
+
   // Combinar eventos predefinidos con eventos del usuario
   const allEventsData = [...sampleEventsState, ...userEvents];
 
@@ -219,7 +240,7 @@ const EventsList = () => {
               : "grid-cols-1"
           }`}>
             {filteredUpcomingEvents.map((event, index) => (
-              <EventCard key={`upcoming-${event.id || index}`} {...event} onEventUpdate={handleEventUpdate} />
+              <EventCard key={`upcoming-${event.id || index}`} {...event} onEventUpdate={handleEventUpdate} onEventDelete={handleEventDelete} />
             ))}
           </div>
         </TabsContent>
@@ -238,7 +259,7 @@ const EventsList = () => {
               : "grid-cols-1"
           }`}>
             {filteredAllEvents.map((event, index) => (
-              <EventCard key={`all-${event.id || index}`} {...event} onEventUpdate={handleEventUpdate} />
+              <EventCard key={`all-${event.id || index}`} {...event} onEventUpdate={handleEventUpdate} onEventDelete={handleEventDelete} />
             ))}
           </div>
         </TabsContent>

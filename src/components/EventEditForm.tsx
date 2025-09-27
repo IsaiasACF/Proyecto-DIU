@@ -25,10 +25,12 @@ interface EventEditFormProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   onEventUpdate: (updatedEvent: any) => void;
+  onEventDelete: (eventId: string) => void;
 }
 
-const EventEditForm = ({ event, isOpen, onOpenChange, onEventUpdate }: EventEditFormProps) => {
+const EventEditForm = ({ event, isOpen, onOpenChange, onEventUpdate, onEventDelete }: EventEditFormProps) => {
   const [formData, setFormData] = useState(event);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const { toast } = useToast();
 
   // Sincronizar formData cuando el evento cambie
@@ -52,6 +54,15 @@ const EventEditForm = ({ event, isOpen, onOpenChange, onEventUpdate }: EventEdit
       ...prev,
       [field]: value
     }));
+  };
+
+  const handleDelete = () => {
+    onEventDelete(event.id);
+    toast({
+      title: "Evento eliminado",
+      description: "El evento se ha eliminado exitosamente.",
+    });
+    onOpenChange(false);
   };
 
   return (
@@ -191,14 +202,43 @@ const EventEditForm = ({ event, isOpen, onOpenChange, onEventUpdate }: EventEdit
             />
           </div>
 
-          <div className="flex justify-end space-x-2 pt-4">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-              Cancelar
+          <div className="flex justify-between items-center pt-4">
+            <Button 
+              type="button" 
+              variant="destructive" 
+              onClick={() => setShowDeleteConfirm(true)}
+            >
+              Eliminar evento
             </Button>
-            <Button type="submit">
-              Guardar cambios
-            </Button>
+            <div className="space-x-2">
+              <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+                Cancelar
+              </Button>
+              <Button type="submit">
+                Guardar cambios
+              </Button>
+            </div>
           </div>
+
+          {/* Confirmación de eliminación */}
+          {showDeleteConfirm && (
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+              <div className="bg-background p-6 rounded-lg shadow-lg max-w-md w-full mx-4">
+                <h3 className="text-lg font-semibold mb-2">¿Eliminar evento?</h3>
+                <p className="text-muted-foreground mb-4">
+                  ¿Estás seguro de que quieres eliminar "{event.title}"? Esta acción no se puede deshacer.
+                </p>
+                <div className="flex justify-end space-x-2">
+                  <Button variant="outline" onClick={() => setShowDeleteConfirm(false)}>
+                    Cancelar
+                  </Button>
+                  <Button variant="destructive" onClick={handleDelete}>
+                    Eliminar
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
         </form>
       </DialogContent>
     </Dialog>
