@@ -17,6 +17,7 @@ interface EventCardProps {
   attendees: number;
   maxAttendees?: number;
   description: string;
+  fullDescription?: string;
   isHighlighted?: boolean;
 }
 
@@ -32,6 +33,7 @@ const EventCard = ({
   attendees,
   maxAttendees,
   description,
+  fullDescription,
   isHighlighted = false,
 }: EventCardProps) => {
   const getCategoryColor = (category: string) => {
@@ -128,9 +130,9 @@ const EventCard = ({
                 <div className="space-y-6 mt-6">
                   <div>
                     <h3 className="text-xl font-semibold text-foreground mb-3">Descripción</h3>
-                    <p className="text-muted-foreground leading-relaxed">
-                      {description}
-                    </p>
+                    <div className="text-muted-foreground leading-relaxed whitespace-pre-line">
+                      {fullDescription || description}
+                    </div>
                   </div>
 
                   <Separator />
