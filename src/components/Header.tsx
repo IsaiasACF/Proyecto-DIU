@@ -33,10 +33,6 @@ const Header = () => {
 
           {/* Actions */}
           <div className="flex items-center space-x-2">
-            <Button variant="ghost" size="sm" className="hidden sm:flex">
-              <Filter className="h-4 w-4 mr-2" />
-              Filtros
-            </Button>
             <Button variant="outline" size="sm">
               <User className="h-4 w-4 mr-2" />
               Ingresar
