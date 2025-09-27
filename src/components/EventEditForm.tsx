@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -31,8 +31,14 @@ const EventEditForm = ({ event, isOpen, onOpenChange, onEventUpdate }: EventEdit
   const [formData, setFormData] = useState(event);
   const { toast } = useToast();
 
+  // Sincronizar formData cuando el evento cambie
+  useEffect(() => {
+    setFormData(event);
+  }, [event]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('Guardando evento:', formData); // Debug log
     onEventUpdate(formData);
     toast({
       title: "Evento actualizado",

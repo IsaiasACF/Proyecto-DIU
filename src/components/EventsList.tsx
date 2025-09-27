@@ -110,20 +110,23 @@ const EventsList = () => {
 
   // Función para actualizar eventos
   const handleEventUpdate = (updatedEvent: any) => {
+    console.log('Actualizando evento:', updatedEvent); // Debug log
     // Actualizar en eventos de muestra si es uno de ellos
     const sampleEventIndex = sampleEventsState.findIndex(e => e.id === updatedEvent.id);
     if (sampleEventIndex !== -1) {
       const newSampleEvents = [...sampleEventsState];
-      newSampleEvents[sampleEventIndex] = updatedEvent;
+      newSampleEvents[sampleEventIndex] = { ...newSampleEvents[sampleEventIndex], ...updatedEvent };
       setSampleEventsState(newSampleEvents);
+      console.log('Evento de muestra actualizado'); // Debug log
     } else {
       // Actualizar en eventos del usuario
       const userEventIndex = userEvents.findIndex(e => e.id === updatedEvent.id);
       if (userEventIndex !== -1) {
         const newUserEvents = [...userEvents];
-        newUserEvents[userEventIndex] = updatedEvent;
+        newUserEvents[userEventIndex] = { ...newUserEvents[userEventIndex], ...updatedEvent };
         setUserEvents(newUserEvents);
         localStorage.setItem('userEvents', JSON.stringify(newUserEvents));
+        console.log('Evento de usuario actualizado'); // Debug log
       }
     }
   };
@@ -169,8 +172,8 @@ const EventsList = () => {
     });
   };
 
-  const filteredAllEvents = useMemo(() => filterEvents(allEventsData), [activeFilters, userEvents]);
-  const filteredUpcomingEvents = useMemo(() => filterEvents(allEventsData.slice(0, 3)), [activeFilters, userEvents]);
+  const filteredAllEvents = useMemo(() => filterEvents(allEventsData), [activeFilters, userEvents, sampleEventsState]);
+  const filteredUpcomingEvents = useMemo(() => filterEvents(allEventsData.slice(0, 3)), [activeFilters, userEvents, sampleEventsState]);
 
   const handleFiltersChange = (filters: string[]) => {
     setActiveFilters(filters);
