@@ -2,8 +2,10 @@ import { Calendar, Clock, MapPin, Users, Tag } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 interface EventCardProps {
+  id: string;
   title: string;
   date: string;
   time: string;
@@ -18,6 +20,7 @@ interface EventCardProps {
 }
 
 const EventCard = ({
+  id,
   title,
   date,
   time,
@@ -100,8 +103,10 @@ const EventCard = ({
           </Badge>
           
           <div className="flex gap-2">
-            <Button variant="outline" size="sm">
-              Más info
+            <Button variant="outline" size="sm" asChild>
+              <Link to={`/evento/${id}`}>
+                Más info
+              </Link>
             </Button>
             <Button size="sm" className="bg-gradient-primary">
               Inscribirse

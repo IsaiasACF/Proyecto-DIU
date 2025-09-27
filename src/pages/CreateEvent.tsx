@@ -62,6 +62,7 @@ const CreateEvent = () => {
 
     // Crear el evento
     const newEvent = {
+      id: `user-${Date.now()}`,
       ...formData,
       attendees: 0,
       maxAttendees: Math.floor(Math.random() * 300) + 50, // Capacidad aleatoria para demo

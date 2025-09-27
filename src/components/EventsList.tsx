@@ -19,6 +19,7 @@ const EventsList = () => {
   // Datos de ejemplo para los eventos
   const sampleEvents = [
     {
+      id: "1",
       title: "Conferencia Internacional de Ingeniería",
       date: "25 Nov 2024",
       time: "09:00 - 17:00",
@@ -32,6 +33,7 @@ const EventsList = () => {
       isHighlighted: true,
     },
     {
+      id: "2",
       title: "Festival Cultural Universitario",
       date: "28 Nov 2024",
       time: "18:00 - 22:00",
@@ -44,6 +46,7 @@ const EventsList = () => {
       description: "Celebración anual con presentaciones de danza, música y teatro de estudiantes y artistas invitados.",
     },
     {
+      id: "3",
       title: "Torneo Intercampus de Fútbol",
       date: "30 Nov 2024",
       time: "15:00 - 19:00",
@@ -56,6 +59,7 @@ const EventsList = () => {
       description: "Torneo entre las diferentes facultades. Inscripciones abiertas hasta el 28 de noviembre.",
     },
     {
+      id: "4",
       title: "Seminario de Emprendimiento Digital",
       date: "02 Dic 2024",
       time: "10:00 - 15:00",
@@ -68,6 +72,7 @@ const EventsList = () => {
       description: "Aprende sobre las herramientas digitales más efectivas para lanzar tu startup. Incluye casos de éxito y mentorías.",
     },
     {
+      id: "5",
       title: "Jornada de Puertas Abiertas",
       date: "05 Dic 2024",
       time: "08:00 - 16:00",
@@ -79,6 +84,7 @@ const EventsList = () => {
       description: "Evento para futuros estudiantes y sus familias. Incluye tours por las instalaciones y charlas informativas.",
     },
     {
+      id: "6",
       title: "Concierto de la Orquesta Universitaria",
       date: "08 Dic 2024",
       time: "20:00 - 22:00",
@@ -178,7 +184,7 @@ const EventsList = () => {
               : "grid-cols-1"
           }`}>
             {filteredUpcomingEvents.map((event, index) => (
-              <EventCard key={index} {...event} />
+              <EventCard key={event.id || index} {...event} />
             ))}
           </div>
         </TabsContent>
@@ -197,7 +203,7 @@ const EventsList = () => {
               : "grid-cols-1"
           }`}>
             {filteredAllEvents.map((event, index) => (
-              <EventCard key={index} {...event} />
+              <EventCard key={event.id || index} {...event} />
             ))}
           </div>
         </TabsContent>
