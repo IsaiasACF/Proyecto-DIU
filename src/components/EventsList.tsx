@@ -92,20 +92,6 @@ const EventsList = () => {
       description: "Evento para futuros estudiantes y sus familias. Incluye tours por las instalaciones y charlas informativas.",
       fullDescription: "La Jornada de Puertas Abiertas es el evento más importante del año para futuros estudiantes y sus familias, diseñado para brindar una experiencia completa y detallada de lo que significa ser parte de nuestra comunidad universitaria.\n\nEste evento gratuito permite conocer de primera mano nuestras instalaciones, laboratorios, bibliotecas, espacios deportivos y culturales, además de interactuar directamente con docentes, estudiantes actuales y personal administrativo.\n\nActividades programadas:\n• Tours guiados por estudiantes embajadores\n• Charlas informativas sobre cada programa académico\n• Demostraciones en laboratorios especializados\n• Simulacros de clases magistrales\n• Información sobre becas y financiamiento\n• Actividades deportivas y culturales\n• Feria de organizaciones estudiantiles\n\nProgramas académicos participantes:\n• Ingeniería (todas las especialidades)\n• Ciencias de la Salud\n• Ciencias Sociales y Humanidades\n• Ciencias Exactas y Naturales\n• Artes y Diseño\n• Administración y Negocios\n\nItinerario por horarios:\n• 08:00 - 09:00: Registro y bienvenida en el hall principal\n• 09:00 - 10:00: Charla general sobre la universidad\n• 10:00 - 12:00: Tours por facultades (grupos de 15 personas)\n• 12:00 - 13:00: Almuerzo en la cafetería central\n• 13:00 - 14:30: Charlas específicas por carrera\n• 14:30 - 15:30: Visita a laboratorios y talleres\n• 15:30 - 16:00: Sesión de preguntas y respuestas\n\nInformación práctica:\n• Evento completamente gratuito\n• No requiere inscripción previa\n• Se otorgarán materiales informativos\n• Parqueadero disponible sin costo\n• Servicio de cafetería y restaurante abierto",
     },
-    {
-      id: "6",
-      title: "Concierto de la Orquesta Universitaria",
-      date: "08 Dic 2024",
-      time: "20:00 - 22:00",
-      location: "Teatro Universitario",
-      organizer: "Conservatorio",
-      category: "Cultural",
-      audienceType: "Público",
-      attendees: 178,
-      maxAttendees: 300,
-      description: "Concierto de fin de año con obras clásicas y contemporáneas interpretadas por la orquesta universitaria.",
-      fullDescription: "El Concierto de la Orquesta Universitaria marca el cierre del año académico con una velada musical excepcional que celebra el talento de nuestros estudiantes y la riqueza del repertorio clásico y contemporáneo.\n\nBajo la dirección del maestro Eduardo Fernández, la orquesta presentará un programa cuidadosamente seleccionado que incluye desde las grandes obras del período romántico hasta composiciones contemporáneas de autores latinoamericanos.\n\nEste evento representa el resultado de un año completo de ensayos, perfeccionamiento técnico y crecimiento artístico de los 45 músicos que conforman la orquesta, incluyendo estudiantes de música, pero también de otras carreras que cultivan su pasión musical.\n\nPrograma musical:\n\nPrimera parte:\n• Obertura de 'El Barbero de Sevilla' - Gioachino Rossini\n• Concierto para piano No. 1 en Mi menor, Op. 11 - Frédéric Chopin\n  Solista: Laura Martínez (estudiante de 4to año)\n• Sinfonía No. 40 en Sol menor, K. 550 - Wolfgang Amadeus Mozart\n\nIntermedio (15 minutos)\n\nSegunda parte:\n• Suite 'Estancia' - Alberto Ginastera\n• Danzas Sinfónicas de 'West Side Story' - Leonard Bernstein\n• Como cierre especial: 'Libertango' - Astor Piazzolla\n  Con la participación del Coro Universitario\n\nInformación del evento:\n• Entrada libre hasta completar aforo\n• Recomendamos llegar 30 minutos antes\n• Vestimenta sugerida: elegante casual\n• Duración aproximada: 2 horas con intermedio\n• Se otorgarán programas de mano con información de las obras\n• Servicio de guardarropa disponible\n\nEste concierto también contará con la participación especial de exalumnos músicos profesionales y será transmitido en vivo por la radio universitaria.",
-    },
   ];
 
   // Función para actualizar eventos
