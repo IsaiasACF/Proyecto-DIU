@@ -9,11 +9,15 @@ const EventsList = () => {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [userEvents, setUserEvents] = useState<any[]>([]);
+  const [sampleEventsState, setSampleEventsState] = useState([]);
 
   // Cargar eventos del usuario desde localStorage
   useEffect(() => {
     const savedEvents = JSON.parse(localStorage.getItem('userEvents') || '[]');
     setUserEvents(savedEvents);
+    
+    // Inicializar eventos de muestra
+    setSampleEventsState(sampleEvents);
   }, []);
 
   // Datos de ejemplo para los eventos
@@ -104,8 +108,28 @@ const EventsList = () => {
     },
   ];
 
+  // Función para actualizar eventos
+  const handleEventUpdate = (updatedEvent: any) => {
+    // Actualizar en eventos de muestra si es uno de ellos
+    const sampleEventIndex = sampleEventsState.findIndex(e => e.id === updatedEvent.id);
+    if (sampleEventIndex !== -1) {
+      const newSampleEvents = [...sampleEventsState];
+      newSampleEvents[sampleEventIndex] = updatedEvent;
+      setSampleEventsState(newSampleEvents);
+    } else {
+      // Actualizar en eventos del usuario
+      const userEventIndex = userEvents.findIndex(e => e.id === updatedEvent.id);
+      if (userEventIndex !== -1) {
+        const newUserEvents = [...userEvents];
+        newUserEvents[userEventIndex] = updatedEvent;
+        setUserEvents(newUserEvents);
+        localStorage.setItem('userEvents', JSON.stringify(newUserEvents));
+      }
+    }
+  };
+
   // Combinar eventos predefinidos con eventos del usuario
-  const allEventsData = [...sampleEvents, ...userEvents];
+  const allEventsData = [...sampleEventsState, ...userEvents];
 
   const filterEvents = (events: typeof allEventsData) => {
     if (activeFilters.length === 0) return events;
@@ -206,7 +230,7 @@ const EventsList = () => {
               : "grid-cols-1"
           }`}>
             {filteredUpcomingEvents.map((event, index) => (
-              <EventCard key={`upcoming-${event.id || index}`} {...event} />
+              <EventCard key={`upcoming-${event.id || index}`} {...event} onEventUpdate={handleEventUpdate} />
             ))}
           </div>
         </TabsContent>
@@ -225,7 +249,7 @@ const EventsList = () => {
               : "grid-cols-1"
           }`}>
             {filteredAllEvents.map((event, index) => (
-              <EventCard key={`all-${event.id || index}`} {...event} />
+              <EventCard key={`all-${event.id || index}`} {...event} onEventUpdate={handleEventUpdate} />
             ))}
           </div>
         </TabsContent>

@@ -1,9 +1,12 @@
-import { Calendar, Clock, MapPin, Users, Tag } from "lucide-react";
+import { Calendar, Clock, MapPin, Users, Tag, Edit3 } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
+import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
+import EventEditForm from "./EventEditForm";
 
 interface EventCardProps {
   id: string;
@@ -19,6 +22,7 @@ interface EventCardProps {
   description: string;
   fullDescription?: string;
   isHighlighted?: boolean;
+  onEventUpdate?: (updatedEvent: any) => void;
 }
 
 const EventCard = ({
@@ -35,7 +39,38 @@ const EventCard = ({
   description,
   fullDescription,
   isHighlighted = false,
+  onEventUpdate,
 }: EventCardProps) => {
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const { toast } = useToast();
+
+  const handleRegister = () => {
+    toast({
+      title: "¡Inscripción exitosa!",
+      description: "Te has inscrito correctamente al evento. Recibirás más información por correo.",
+    });
+  };
+
+  const handleEventUpdate = (updatedEvent: any) => {
+    if (onEventUpdate) {
+      onEventUpdate(updatedEvent);
+    }
+  };
+
+  const eventData = {
+    id,
+    title,
+    date,
+    time,
+    location,
+    organizer,
+    category,
+    audienceType,
+    attendees,
+    maxAttendees,
+    description,
+    fullDescription,
+  };
   const getCategoryColor = (category: string) => {
     const colors: Record<string, string> = {
       academico: "bg-primary text-primary-foreground",
@@ -106,6 +141,15 @@ const EventCard = ({
           </Badge>
           
           <div className="flex gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsEditOpen(true)}
+              className="text-muted-foreground hover:text-foreground"
+            >
+              <Edit3 className="h-4 w-4" />
+            </Button>
+            
             <Dialog>
               <DialogTrigger asChild>
                 <Button variant="outline" size="sm">
@@ -174,7 +218,7 @@ const EventCard = ({
                   <Separator />
 
                   <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                    <Button size="lg" className="bg-gradient-primary flex-1">
+                    <Button size="lg" className="bg-gradient-primary flex-1" onClick={handleRegister}>
                       Inscribirse al evento
                     </Button>
                     <Button variant="outline" size="lg">
@@ -184,11 +228,18 @@ const EventCard = ({
                 </div>
               </DialogContent>
             </Dialog>
-            <Button size="sm" className="bg-gradient-primary">
+            <Button size="sm" className="bg-gradient-primary" onClick={handleRegister}>
               Inscribirse
             </Button>
           </div>
         </div>
+
+        <EventEditForm
+          event={eventData}
+          isOpen={isEditOpen}
+          onOpenChange={setIsEditOpen}
+          onEventUpdate={handleEventUpdate}
+        />
       </CardContent>
     </Card>
   );
