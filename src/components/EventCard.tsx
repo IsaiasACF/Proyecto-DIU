@@ -2,7 +2,8 @@ import { Calendar, Clock, MapPin, Users, Tag } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Separator } from "@/components/ui/separator";
 
 interface EventCardProps {
   id: string;
@@ -103,11 +104,84 @@ const EventCard = ({
           </Badge>
           
           <div className="flex gap-2">
-            <Button variant="outline" size="sm" asChild>
-              <Link to={`/evento/${id}`}>
-                Más info
-              </Link>
-            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline" size="sm">
+                  Más info
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                <DialogHeader>
+                  <DialogTitle className="text-2xl font-bold">{title}</DialogTitle>
+                  <p className="text-lg text-muted-foreground">{organizer}</p>
+                  <div className="flex gap-2 mt-2">
+                    <Badge className={getCategoryColor(category)} variant="secondary">
+                      <Tag className="h-4 w-4 mr-2" />
+                      {category}
+                    </Badge>
+                    <Badge variant="outline" className={getAudienceColor(audienceType)}>
+                      {audienceType}
+                    </Badge>
+                  </div>
+                </DialogHeader>
+                
+                <div className="space-y-6 mt-6">
+                  <div>
+                    <h3 className="text-xl font-semibold text-foreground mb-3">Descripción</h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      {description}
+                    </p>
+                  </div>
+
+                  <Separator />
+
+                  <div>
+                    <h3 className="text-xl font-semibold text-foreground mb-4">Detalles del evento</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="flex items-center text-muted-foreground">
+                        <Calendar className="h-5 w-5 mr-3 text-primary" />
+                        <div>
+                          <p className="font-medium text-foreground">Fecha</p>
+                          <p>{date}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center text-muted-foreground">
+                        <Clock className="h-5 w-5 mr-3 text-primary" />
+                        <div>
+                          <p className="font-medium text-foreground">Horario</p>
+                          <p>{time}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center text-muted-foreground">
+                        <MapPin className="h-5 w-5 mr-3 text-primary" />
+                        <div>
+                          <p className="font-medium text-foreground">Ubicación</p>
+                          <p>{location}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center text-muted-foreground">
+                        <Users className="h-5 w-5 mr-3 text-primary" />
+                        <div>
+                          <p className="font-medium text-foreground">Participantes</p>
+                          <p>{attendees} {maxAttendees && `/ ${maxAttendees}`} inscritos</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <Separator />
+
+                  <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                    <Button size="lg" className="bg-gradient-primary flex-1">
+                      Inscribirse al evento
+                    </Button>
+                    <Button variant="outline" size="lg">
+                      Compartir evento
+                    </Button>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
             <Button size="sm" className="bg-gradient-primary">
               Inscribirse
             </Button>
