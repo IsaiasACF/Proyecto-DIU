@@ -23,11 +23,8 @@ const EventFilters = ({ onFiltersChange }: EventFiltersProps) => {
   ];
 
   const audiences = [
-    { value: "todo", label: "Todo público" },
     { value: "estudiantes", label: "Estudiantes" },
-    { value: "funcionarios", label: "Funcionarios" },
-    { value: "publico", label: "Público General" },
-    { value: "interno", label: "Comunidad Interna" },
+    { value: "publico", label: "Público general" },
   ];
 
   const timeRanges = [

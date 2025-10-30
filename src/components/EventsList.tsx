@@ -1,27 +1,20 @@
 import { useState, useMemo, useEffect } from "react";
-import { Grid, List, Calendar, ChevronRight } from "lucide-react";
+import { Grid, List, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import EventCard from "./EventCard";
 import EventFilters from "./EventFilters";
+import { useEnroll } from "@/hooks/enrollStore";
 
 const EventsList = () => {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [userEvents, setUserEvents] = useState<any[]>([]);
-  const [sampleEventsState, setSampleEventsState] = useState([]);
+  const [sampleEventsState, setSampleEventsState] = useState<any[]>([]);
+  const { enrolledIds } = useEnroll();
 
-  // Cargar eventos del usuario desde localStorage
-  useEffect(() => {
-    const savedEvents = JSON.parse(localStorage.getItem('userEvents') || '[]');
-    setUserEvents(savedEvents);
-    
-    // Inicializar eventos de muestra
-    setSampleEventsState(sampleEvents);
-  }, []);
-
-  // Datos de ejemplo para los eventos
-  const sampleEvents = [
+  // ------------------- DATOS DE EJEMPLO -------------------
+    const sampleEvents = [
     {
       id: "1",
       title: "Conferencia Internacional de Ingeniería",
@@ -93,85 +86,81 @@ const EventsList = () => {
       fullDescription: "La Jornada de Puertas Abiertas es el evento más importante del año para futuros estudiantes y sus familias, diseñado para brindar una experiencia completa y detallada de lo que significa ser parte de nuestra comunidad universitaria.\n\nEste evento gratuito permite conocer de primera mano nuestras instalaciones, laboratorios, bibliotecas, espacios deportivos y culturales, además de interactuar directamente con docentes, estudiantes actuales y personal administrativo.\n\nActividades programadas:\n• Tours guiados por estudiantes embajadores\n• Charlas informativas sobre cada programa académico\n• Demostraciones en laboratorios especializados\n• Simulacros de clases magistrales\n• Información sobre becas y financiamiento\n• Actividades deportivas y culturales\n• Feria de organizaciones estudiantiles\n\nProgramas académicos participantes:\n• Ingeniería (todas las especialidades)\n• Ciencias de la Salud\n• Ciencias Sociales y Humanidades\n• Ciencias Exactas y Naturales\n• Artes y Diseño\n• Administración y Negocios\n\nItinerario por horarios:\n• 08:00 - 09:00: Registro y bienvenida en el hall principal\n• 09:00 - 10:00: Charla general sobre la universidad\n• 10:00 - 12:00: Tours por facultades (grupos de 15 personas)\n• 12:00 - 13:00: Almuerzo en la cafetería central\n• 13:00 - 14:30: Charlas específicas por carrera\n• 14:30 - 15:30: Visita a laboratorios y talleres\n• 15:30 - 16:00: Sesión de preguntas y respuestas\n\nInformación práctica:\n• Evento completamente gratuito\n• No requiere inscripción previa\n• Se otorgarán materiales informativos\n• Parqueadero disponible sin costo\n• Servicio de cafetería y restaurante abierto",
     },
   ];
+  // --------------------------------------------------------
 
-  // Función para actualizar eventos
-  const handleEventUpdate = (updatedEvent: any) => {
-    console.log('Actualizando evento:', updatedEvent); // Debug log
-    // Actualizar en eventos de muestra si es uno de ellos
-    const sampleEventIndex = sampleEventsState.findIndex(e => e.id === updatedEvent.id);
-    if (sampleEventIndex !== -1) {
-      const newSampleEvents = [...sampleEventsState];
-      newSampleEvents[sampleEventIndex] = { ...newSampleEvents[sampleEventIndex], ...updatedEvent };
-      setSampleEventsState(newSampleEvents);
-      console.log('Evento de muestra actualizado'); // Debug log
-    } else {
-      // Actualizar en eventos del usuario
-      const userEventIndex = userEvents.findIndex(e => e.id === updatedEvent.id);
-      if (userEventIndex !== -1) {
-        const newUserEvents = [...userEvents];
-        newUserEvents[userEventIndex] = { ...newUserEvents[userEventIndex], ...updatedEvent };
-        setUserEvents(newUserEvents);
-        localStorage.setItem('userEvents', JSON.stringify(newUserEvents));
-        console.log('Evento de usuario actualizado'); // Debug log
-      }
+  // Carga inicial de eventos de usuario y copia de los sample
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem("userEvents") || "[]");
+    setUserEvents(saved);
+    setSampleEventsState(sampleEvents);
+  }, []);
+
+  // Editar evento
+  const handleEventUpdate = (updated: any) => {
+    const i = sampleEventsState.findIndex((e: any) => e.id === updated.id);
+    if (i !== -1) {
+      const n = [...sampleEventsState];
+      n[i] = { ...n[i], ...updated };
+      setSampleEventsState(n);
+      return;
+    }
+    const j = userEvents.findIndex((e: any) => e.id === updated.id);
+    if (j !== -1) {
+      const n = [...userEvents];
+      n[j] = { ...n[j], ...updated };
+      setUserEvents(n);
+      localStorage.setItem("userEvents", JSON.stringify(n));
     }
   };
 
-  // Función para eliminar eventos
-  const handleEventDelete = (eventId: string) => {
-    console.log('Eliminando evento:', eventId); // Debug log
-    // Eliminar de eventos de muestra si es uno de ellos
-    const sampleEventIndex = sampleEventsState.findIndex(e => e.id === eventId);
-    if (sampleEventIndex !== -1) {
-      const newSampleEvents = sampleEventsState.filter(e => e.id !== eventId);
-      setSampleEventsState(newSampleEvents);
-      console.log('Evento de muestra eliminado'); // Debug log
-    } else {
-      // Eliminar de eventos del usuario
-      const userEventIndex = userEvents.findIndex(e => e.id === eventId);
-      if (userEventIndex !== -1) {
-        const newUserEvents = userEvents.filter(e => e.id !== eventId);
-        setUserEvents(newUserEvents);
-        localStorage.setItem('userEvents', JSON.stringify(newUserEvents));
-        console.log('Evento de usuario eliminado'); // Debug log
-      }
+  // Eliminar evento
+  const handleEventDelete = (id: string) => {
+    const i = sampleEventsState.findIndex((e: any) => e.id === id);
+    if (i !== -1) {
+      const n = sampleEventsState.filter((e: any) => e.id !== id);
+      setSampleEventsState(n);
+      return;
+    }
+    const j = userEvents.findIndex((e: any) => e.id === id);
+    if (j !== -1) {
+      const n = userEvents.filter((e: any) => e.id !== id);
+      setUserEvents(n);
+      localStorage.setItem("userEvents", JSON.stringify(n));
     }
   };
 
-  // Combinar eventos predefinidos con eventos del usuario
   const allEventsData = [...sampleEventsState, ...userEvents];
 
-  const filterEvents = (events: typeof allEventsData) => {
+  const filterEvents = (events: any[]) => {
     if (activeFilters.length === 0) return events;
-
-    return events.filter(event => {
-      return activeFilters.every(filter => {
-        const [type, value] = filter.split(':');
-        
+    return events.filter((event) => {
+      return activeFilters.every((filter) => {
+        const [type, value] = filter.split(":");
         switch (type) {
-          case 'categoria':
+          case "categoria":
             return event.category.toLowerCase() === value;
-          case 'publico':
-            return value === 'todo' || event.audienceType.toLowerCase() === value;
-          case 'tiempo':
-            const eventDate = new Date(event.date.split(' ').reverse().join('-'));
+          case "publico":
+            return value === "todo" || event.audienceType.toLowerCase() === value;
+          case "tiempo": {
+            const eventDate = new Date(event.date.split(" ").reverse().join("-"));
             const today = new Date();
             const oneWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
             const oneMonth = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
-            
             switch (value) {
-              case 'hoy':
+              case "hoy":
                 return eventDate.toDateString() === today.toDateString();
-              case 'semana':
+              case "semana":
                 return eventDate >= today && eventDate <= oneWeek;
-              case 'mes':
+              case "mes":
                 return eventDate >= today && eventDate <= oneMonth;
-              case 'siguiente':
+              case "siguiente": {
                 const nextMonth = new Date(today.getTime() + 60 * 24 * 60 * 60 * 1000);
                 return eventDate > oneMonth && eventDate <= nextMonth;
+              }
               default:
                 return true;
             }
+          }
           default:
             return true;
         }
@@ -179,16 +168,27 @@ const EventsList = () => {
     });
   };
 
-  const filteredAllEvents = useMemo(() => filterEvents(allEventsData), [activeFilters, userEvents, sampleEventsState]);
-  const filteredUpcomingEvents = useMemo(() => filterEvents(allEventsData.slice(0, 3)), [activeFilters, userEvents, sampleEventsState]);
+  // 1) aplicar filtros
+  const filtered = useMemo(
+    () => filterEvents(allEventsData),
+    [activeFilters, userEvents, sampleEventsState]
+  );
 
-  const handleFiltersChange = (filters: string[]) => {
-    setActiveFilters(filters);
-  };
+  // 2) excluir eventos ya inscritos de la lista general
+  const visibleAllEvents = useMemo(
+    () => filtered.filter((ev: any) => !enrolledIds.includes(ev.id)),
+    [filtered, enrolledIds]
+  );
+
+  const visibleUpcoming = useMemo(
+    () => visibleAllEvents.slice(0, 3),
+    [visibleAllEvents]
+  );
+
+  const handleFiltersChange = (filters: string[]) => setActiveFilters(filters);
 
   return (
     <div className="space-y-6">
-      {/* Filters */}
       <EventFilters onFiltersChange={handleFiltersChange} />
 
       <Tabs defaultValue="upcoming" className="w-full">
@@ -204,6 +204,7 @@ const EventsList = () => {
             </TabsTrigger>
           </TabsList>
 
+          {/* sin "Ver todos" */}
           <div className="flex items-center gap-2">
             <Button
               variant={viewMode === "grid" ? "default" : "outline"}
@@ -228,19 +229,21 @@ const EventsList = () => {
               <h2 className="text-2xl font-semibold text-foreground">Eventos Destacados</h2>
               <p className="text-muted-foreground">Los eventos más relevantes de esta semana</p>
             </div>
-            <Button variant="outline" className="gap-2">
-              Ver todos
-              <ChevronRight className="h-4 w-4" />
-            </Button>
           </div>
 
-          <div className={`grid gap-6 ${
-            viewMode === "grid" 
-              ? "grid-cols-1 md:grid-cols-2 xl:grid-cols-3" 
-              : "grid-cols-1"
-          }`}>
-            {filteredUpcomingEvents.map((event, index) => (
-              <EventCard key={`upcoming-${event.id || index}`} {...event} onEventUpdate={handleEventUpdate} onEventDelete={handleEventDelete} />
+          <div
+            className={`grid gap-6 ${
+              viewMode === "grid" ? "grid-cols-1 md:grid-cols-2 xl:grid-cols-3" : "grid-cols-1"
+            }`}
+          >
+            {visibleUpcoming.map((ev: any, idx: number) => (
+              <EventCard
+                key={`upcoming-${ev.id || idx}`}
+                {...ev}
+                context="general"
+                onEventUpdate={handleEventUpdate}
+                onEventDelete={handleEventDelete}
+              />
             ))}
           </div>
         </TabsContent>
@@ -249,17 +252,23 @@ const EventsList = () => {
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-2xl font-semibold text-foreground">Todos los Eventos</h2>
-              <p className="text-muted-foreground">{filteredAllEvents.length} eventos disponibles</p>
+              <p className="text-muted-foreground">{visibleAllEvents.length} eventos disponibles</p>
             </div>
           </div>
 
-          <div className={`grid gap-6 ${
-            viewMode === "grid" 
-              ? "grid-cols-1 md:grid-cols-2 xl:grid-cols-3" 
-              : "grid-cols-1"
-          }`}>
-            {filteredAllEvents.map((event, index) => (
-              <EventCard key={`all-${event.id || index}`} {...event} onEventUpdate={handleEventUpdate} onEventDelete={handleEventDelete} />
+          <div
+            className={`grid gap-6 ${
+              viewMode === "grid" ? "grid-cols-1 md:grid-cols-2 xl:grid-cols-3" : "grid-cols-1"
+            }`}
+          >
+            {visibleAllEvents.map((ev: any, idx: number) => (
+              <EventCard
+                key={`all-${ev.id || idx}`}
+                {...ev}
+                context="general"
+                onEventUpdate={handleEventUpdate}
+                onEventDelete={handleEventDelete}
+              />
             ))}
           </div>
         </TabsContent>

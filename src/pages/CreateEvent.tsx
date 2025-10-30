@@ -50,7 +50,6 @@ const CreateEvent = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validación básica
     if (!formData.title || !formData.date || !formData.time || !formData.location || !formData.category || !formData.audienceType) {
       toast({
         title: "Error",
@@ -60,16 +59,14 @@ const CreateEvent = () => {
       return;
     }
 
-    // Crear el evento
     const newEvent = {
       id: `user-${Date.now()}`,
       ...formData,
       attendees: 0,
-      maxAttendees: Math.floor(Math.random() * 300) + 50, // Capacidad aleatoria para demo
+      maxAttendees: Math.floor(Math.random() * 300) + 50,
       isHighlighted: false,
     };
 
-    // Guardar en localStorage (solución temporal)
     const existingEvents = JSON.parse(localStorage.getItem('userEvents') || '[]');
     existingEvents.push(newEvent);
     localStorage.setItem('userEvents', JSON.stringify(existingEvents));
@@ -79,14 +76,14 @@ const CreateEvent = () => {
       description: "Tu evento ha sido publicado y aparecerá en la lista principal.",
     });
 
-    // Redirigir a la página principal
     navigate('/');
   };
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
-      
+      {/* ✅ Ocultamos el buscador desde aquí también */}
+      <Header showSearch={false} showBackHome />
+
       <main className="container mx-auto px-6 py-8">
         <div className="max-w-2xl mx-auto">
           {/* Header */}
@@ -238,13 +235,6 @@ const CreateEvent = () => {
 
                 {/* Botones */}
                 <div className="flex justify-end gap-4 pt-6">
-                  <Button 
-                    type="button" 
-                    variant="outline"
-                    onClick={() => navigate('/')}
-                  >
-                    Cancelar
-                  </Button>
                   <Button 
                     type="submit"
                     className="bg-gradient-primary text-primary-foreground shadow-md hover:shadow-lg"
