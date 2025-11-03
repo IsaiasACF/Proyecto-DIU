@@ -88,7 +88,6 @@ const EventsList = () => {
   ];
   // --------------------------------------------------------
 
-  // Carga inicial de eventos de usuario y copia de los sample
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("userEvents") || "[]");
     setUserEvents(saved);
@@ -168,13 +167,13 @@ const EventsList = () => {
     });
   };
 
-  // 1) aplicar filtros
+  // aplicar filtros
   const filtered = useMemo(
     () => filterEvents(allEventsData),
     [activeFilters, userEvents, sampleEventsState]
   );
 
-  // 2) excluir eventos ya inscritos de la lista general
+  // excluir eventos ya inscritos de la lista general
   const visibleAllEvents = useMemo(
     () => filtered.filter((ev: any) => !enrolledIds.includes(ev.id)),
     [filtered, enrolledIds]
@@ -204,7 +203,6 @@ const EventsList = () => {
             </TabsTrigger>
           </TabsList>
 
-          {/* sin "Ver todos" */}
           <div className="flex items-center gap-2">
             <Button
               variant={viewMode === "grid" ? "default" : "outline"}
