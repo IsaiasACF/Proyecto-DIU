@@ -5,18 +5,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-/** Reglas simples de dominio → rol. Ajusta según tu institución */
 function deriveRoleFromEmail(email: string): "estudiante" | "funcionario" | "externo" {
   const lower = email.toLowerCase().trim();
 
-  // Estudiantes USM (ejemplo)
   if (/@alumnos\.usm\.cl$/.test(lower)) return "estudiante";
 
-  // Funcionarios USM o U. Mayor (ajusta dominios aquí)
   if (/@usm\.cl$/.test(lower)) return "funcionario";
   if (/@umayor\.cl$/.test(lower)) return "funcionario";
 
-  // Por defecto: público externo
   return "externo";
 }
 
@@ -58,7 +54,6 @@ export default function Login() {
               <Input
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="nombre@alumnos.usm.cl"
                 inputMode="email"
                 autoFocus
               />
@@ -78,3 +73,4 @@ export default function Login() {
     </div>
   );
 }
+
