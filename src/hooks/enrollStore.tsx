@@ -15,7 +15,6 @@ export type EnrollEvent = {
   description: string;
   fullDescription?: string;
   isHighlighted?: boolean;
-  // opcionales para inscripción sin login:
   attendeeEmail?: string;
   attendeeName?: string;
   attendeeRole?: Role; // "estudiante" | "funcionario" | "externo"
@@ -69,3 +68,4 @@ export const EnrollProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 };
 
 export const useEnroll = () => useContext(EnrollContext);
+
