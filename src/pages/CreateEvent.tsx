@@ -81,12 +81,10 @@ const CreateEvent = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* ✅ Ocultamos el buscador desde aquí también */}
       <Header showSearch={false} showBackHome />
 
       <main className="container mx-auto px-6 py-8">
         <div className="max-w-2xl mx-auto">
-          {/* Header */}
           <div className="flex items-center gap-4 mb-8">
             <Button 
               variant="ghost" 
@@ -103,7 +101,6 @@ const CreateEvent = () => {
             </div>
           </div>
 
-          {/* Formulario */}
           <Card className="shadow-lg">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -113,7 +110,6 @@ const CreateEvent = () => {
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Título */}
                 <div className="space-y-2">
                   <Label htmlFor="title" className="flex items-center gap-2">
                     <FileText className="h-4 w-4" />
@@ -128,7 +124,6 @@ const CreateEvent = () => {
                   />
                 </div>
 
-                {/* Descripción */}
                 <div className="space-y-2">
                   <Label htmlFor="description">Descripción</Label>
                   <Textarea
@@ -140,7 +135,6 @@ const CreateEvent = () => {
                   />
                 </div>
 
-                {/* Fecha y Hora */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="date" className="flex items-center gap-2">
@@ -168,7 +162,6 @@ const CreateEvent = () => {
                   </div>
                 </div>
 
-                {/* Lugar y Organizador */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="location" className="flex items-center gap-2">
@@ -233,7 +226,6 @@ const CreateEvent = () => {
                   </div>
                 </div>
 
-                {/* Botones */}
                 <div className="flex justify-end gap-4 pt-6">
                   <Button 
                     type="submit"
