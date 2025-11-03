@@ -39,15 +39,13 @@ const EventFilters = ({ onFiltersChange }: EventFiltersProps) => {
     let newFilters;
 
     if (type === 'categoria' || type === 'tiempo') {
-      // Para categorías y tiempo, reemplazar cualquier filtro existente del mismo tipo
       newFilters = activeFilters.filter(f => !f.startsWith(`${type}:`));
       newFilters.push(filter);
     } else {
-      // Para otros tipos, mantener comportamiento actual
       if (!activeFilters.includes(filter)) {
         newFilters = [...activeFilters, filter];
       } else {
-        return; // Ya existe el filtro
+        return;
       }
     }
     
@@ -75,7 +73,6 @@ const EventFilters = ({ onFiltersChange }: EventFiltersProps) => {
 
   return (
     <div className="space-y-4">
-      {/* Filter Toggle and Quick Filters */}
       <div className="flex flex-wrap items-center gap-2">
         <Popover open={isOpen} onOpenChange={setIsOpen}>
           <PopoverTrigger asChild>
@@ -107,7 +104,6 @@ const EventFilters = ({ onFiltersChange }: EventFiltersProps) => {
                     )}
                   </div>
 
-                  {/* Time Range */}
                   <div className="space-y-2">
                     <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
                       <Calendar className="h-4 w-4" />
@@ -127,7 +123,6 @@ const EventFilters = ({ onFiltersChange }: EventFiltersProps) => {
                     </Select>
                   </div>
 
-                  {/* Category */}
                   <div className="space-y-2">
                     <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
                       <Tag className="h-4 w-4" />
@@ -147,7 +142,6 @@ const EventFilters = ({ onFiltersChange }: EventFiltersProps) => {
                     </Select>
                   </div>
 
-                  {/* Audience */}
                   <div className="space-y-2">
                     <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
                       <Users className="h-4 w-4" />
@@ -173,7 +167,6 @@ const EventFilters = ({ onFiltersChange }: EventFiltersProps) => {
         </Popover>
       </div>
 
-      {/* Active Filters */}
       {activeFilters.length > 0 && (
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-sm text-muted-foreground">Filtros activos:</span>
