@@ -1,4 +1,3 @@
-// src/components/Header.tsx
 import { Search, Calendar, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,9 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/authStore";
 
 type Props = {
-  /** Muestra/oculta el buscador del encabezado */
   showSearch?: boolean;
-  /** Si true, muestra "Volver al inicio" en vez de "Mis eventos" */
   showBackHome?: boolean;
 };
 
@@ -17,20 +14,16 @@ const Header = ({ showSearch = true, showBackHome = false }: Props) => {
   const { pathname } = useLocation();
   const { user, logout } = useAuth();
 
-  // Estamos en la pantalla de creación
   const onCreatePage = pathname.startsWith("/crear-evento");
 
-  // Si estamos en /crear-evento, no mostramos buscador
   const shouldShowSearch = showSearch && !onCreatePage;
 
   return (
     <header className="relative sticky top-0 z-50 border-b bg-background/60 backdrop-blur-md">
-      {/* Overlay azul sutil para conservar el look original sobre la imagen de fondo */}
       <div className="pointer-events-none absolute inset-0 bg-primary/10" />
 
       <div className="relative container mx-auto px-6 py-4">
         <div className="flex items-center justify-between gap-3">
-          {/* Logo y marca */}
           <div className="flex items-center gap-3">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-primary">
               <Calendar className="h-4 w-4 text-primary-foreground" />
@@ -43,7 +36,6 @@ const Header = ({ showSearch = true, showBackHome = false }: Props) => {
             </div>
           </div>
 
-          {/* Buscador (controlado por shouldShowSearch) */}
           {shouldShowSearch ? (
             <div className="hidden md:flex flex-1 max-w-md mx-8">
               <div className="relative w-full">
@@ -58,16 +50,12 @@ const Header = ({ showSearch = true, showBackHome = false }: Props) => {
             <div className="flex-1" />
           )}
 
-          {/* Acciones */}
           <div className="flex items-center gap-2">
-            {/* Pill de rol detectado */}
             {user && (
               <span className="hidden sm:inline-flex items-center rounded-full border px-3 py-1 text-xs text-muted-foreground">
                 Rol: <b className="ml-1 capitalize">{user.role}</b>
               </span>
             )}
-
-            {/* Botón contextual: Mis eventos / Volver al inicio */}
             {showBackHome ? (
               <Button variant="outline" size="sm" onClick={() => navigate("/")}>
                 Volver al inicio
@@ -84,7 +72,6 @@ const Header = ({ showSearch = true, showBackHome = false }: Props) => {
               )
             )}
 
-            {/* Crear evento (solo funcionario) y NO mostrar en /crear-evento */}
             {user?.role === "funcionario" && !onCreatePage && (
               <Button
                 size="sm"
@@ -95,7 +82,6 @@ const Header = ({ showSearch = true, showBackHome = false }: Props) => {
               </Button>
             )}
 
-            {/* Login / Logout */}
             {!user ? (
               <Button variant="outline" size="sm" onClick={() => navigate("/login")}>
                 <User className="h-4 w-4 mr-2" />
@@ -116,7 +102,6 @@ const Header = ({ showSearch = true, showBackHome = false }: Props) => {
           </div>
         </div>
 
-        {/* Buscador móvil si está habilitado */}
         {shouldShowSearch && (
           <div className="mt-4 md:hidden">
             <div className="relative">
