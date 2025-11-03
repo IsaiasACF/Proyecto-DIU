@@ -13,20 +13,17 @@ const Hero = () => {
 
   return (
     <section className="relative overflow-hidden text-primary-foreground">
-      {/* Imagen de fondo */}
       <div className="absolute inset-0">
         <img
           src={universityHero}
           alt="Campus universitario"
           className="h-full w-full object-cover"
         />
-        {/* Filtro azul */}
         <div className="absolute inset-0 bg-blue-900/50 mix-blend-multiply" />
       </div>
 
       <div className="container relative mx-auto px-6 py-16 lg:py-24">
         <div className="mx-auto max-w-4xl text-center">
-          {/* Título + subtítulo (se mantienen) */}
           <h1 className="mb-6 text-4xl font-extrabold lg:text-6xl">
             Eventos Universitarios
             <span className="block">Centralizados</span>
@@ -37,7 +34,6 @@ const Hero = () => {
             deportivos en tu universidad. Todo en un solo lugar.
           </p>
 
-          {/* Botones CTA */}
           <div className="mb-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Button
               size="lg"
@@ -50,8 +46,6 @@ const Hero = () => {
               Explorar Eventos
             </Button>
           </div>
-
-          {/* Métricas */}
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
             {stats.map((stat, i) => (
               <Card
