@@ -43,9 +43,6 @@ export default function Login() {
         <CardContent className="p-6 space-y-5">
           <div>
             <h1 className="text-xl font-semibold">Ingresar</h1>
-            <p className="text-sm text-muted-foreground">
-              Escribe tu correo institucional o personal. El sistema asignará tu rol automáticamente.
-            </p>
           </div>
 
           <form onSubmit={submit} className="space-y-4">
@@ -73,4 +70,5 @@ export default function Login() {
     </div>
   );
 }
+
 
