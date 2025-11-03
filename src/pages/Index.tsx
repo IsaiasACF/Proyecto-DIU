@@ -8,7 +8,6 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Header showSearch={false} />
 
-      {/* Hero compacto con foto de fondo */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
           <img src={universityHero} className="h-full w-full object-cover" alt="Campus universitario" />
