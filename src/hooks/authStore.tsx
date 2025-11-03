@@ -1,4 +1,3 @@
-// src/hooks/authStore.tsx
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 export type Role = "estudiante" | "funcionario" | "externo";
@@ -40,3 +39,4 @@ export function useAuth() {
   if (!ctx) throw new Error("useAuth debe usarse dentro de <AuthProvider>");
   return ctx;
 }
+
