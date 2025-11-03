@@ -161,7 +161,6 @@ const EventCard = (props: EventCardProps) => {
           </Badge>
 
           <div className="flex gap-2">
-            {/* ✅ Editar SOLO funcionarios */}
             {user?.role === "funcionario" && (
               <Button
                 variant="ghost"
@@ -173,7 +172,6 @@ const EventCard = (props: EventCardProps) => {
               </Button>
             )}
 
-            {/* Más info */}
             <Dialog>
               <DialogTrigger asChild>
                 <Button variant="outline" size="sm">
@@ -186,7 +184,6 @@ const EventCard = (props: EventCardProps) => {
                   [&>button.absolute]:hidden
                 "
               >
-                {/* X roja sticky */}
                 <div className="sticky top-0 z-20 flex justify-end bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/80 p-3 border-b">
                   <DialogClose asChild>
                     <button
@@ -262,13 +259,11 @@ const EventCard = (props: EventCardProps) => {
                         </div>
                       </div>
                     </div>
-                    {/* sin botones de acción dentro del modal */}
                   </div>
                 </div>
               </DialogContent>
             </Dialog>
 
-            {/* CTA principal en la tarjeta */}
             {context === "my" ? (
               <Button size="sm" variant="outline" onClick={handleLeave}>
                 Salir del evento
@@ -294,7 +289,6 @@ const EventCard = (props: EventCardProps) => {
         />
       </CardContent>
 
-      {/* Modal para inscripción sin login */}
       <ExternalEnrollDialog
         open={openExternalEnroll}
         onOpenChange={setOpenExternalEnroll}
