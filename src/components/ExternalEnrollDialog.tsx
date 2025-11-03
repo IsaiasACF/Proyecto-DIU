@@ -1,4 +1,3 @@
-// src/components/ExternalEnrollDialog.tsx
 import { useState, useMemo } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -24,7 +23,6 @@ export default function ExternalEnrollDialog({ open, onOpenChange, onConfirm }: 
     setTouched(true);
     if (!valid) return;
     onConfirm({ email, name: name.trim() || undefined, inferredRole: inferred! });
-    // limpiar y cerrar
     setEmail("");
     setName("");
     setTouched(false);
@@ -73,3 +71,4 @@ export default function ExternalEnrollDialog({ open, onOpenChange, onConfirm }: 
     </Dialog>
   );
 }
+
