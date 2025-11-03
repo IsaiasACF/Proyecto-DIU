@@ -33,14 +33,13 @@ const EventEditForm = ({ event, isOpen, onOpenChange, onEventUpdate, onEventDele
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const { toast } = useToast();
 
-  // Sincronizar formData cuando el evento cambie
   useEffect(() => {
     setFormData(event);
   }, [event]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Guardando evento:', formData); // Debug log
+    console.log('Guardando evento:', formData); 
     onEventUpdate(formData);
     toast({
       title: "Evento actualizado",
@@ -220,7 +219,6 @@ const EventEditForm = ({ event, isOpen, onOpenChange, onEventUpdate, onEventDele
             </div>
           </div>
 
-          {/* Confirmación de eliminación */}
           {showDeleteConfirm && (
             <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
               <div className="bg-background p-6 rounded-lg shadow-lg max-w-md w-full mx-4">
