@@ -19,10 +19,8 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      {/* tostadores globales */}
       <Toaster />
       <Sonner />
-      {/* providers de auth e inscripciones */}
       <AuthProvider>
         <EnrollProvider>
           <BrowserRouter>
@@ -30,7 +28,6 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/login" element={<Login />} />
 
-              {/* crear: solo funcionarios */}
               <Route
                 path="/crear-evento"
                 element={
@@ -40,7 +37,6 @@ const App = () => (
                 }
               />
 
-              {/* Mis eventos: requiere sesión (cualquier rol) */}
               <Route
                 path="/mis-eventos"
                 element={
@@ -50,7 +46,6 @@ const App = () => (
                 }
               />
 
-              {/* catch-all */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
